@@ -67,20 +67,20 @@ public class VolumeShippingImpl extends CoProcessFunction<NationCustomerOrderJoi
 
                 // Parent JOIN child relation using I(R, Rc)
                 NationSupplierLineItemJointSchema nationSupplierLineItemJointValue = nationSupplierLineItemJointIL.get(key);
-                if (getFilteredData(nationSupplierLineItemJointValue.getN_name(), nationCustomerOrderJointValue.getN_name())) {
-                    String flag = (nationCustomerOrderJointValue.getFlag().equals("+") && nationSupplierLineItemJointValue.getFlag().equals("+")) ? "+" : "-";
-                    Double volume = nationSupplierLineItemJointValue.getL_extendedPrice() * (1 - nationSupplierLineItemJointValue.getL_discount());
-                    VolumeShippingResult volumeShippingResult = new VolumeShippingResult(
-                            flag,
-                            nationSupplierLineItemJointValue.getL_orderKey(),
-                            nationSupplierLineItemJointValue.getL_lineNumber(),
-                            nationSupplierLineItemJointValue.getN_name(),
-                            nationCustomerOrderJointValue.getN_name(),
-                            nationSupplierLineItemJointValue.getL_shipDate().getYear(),
-                            volume
-                    );
-                    collector.collect(volumeShippingResult);
-                }
+//                if (getFilteredData(nationSupplierLineItemJointValue.getN_name(), nationCustomerOrderJointValue.getN_name())) {
+                String flag = (nationCustomerOrderJointValue.getFlag().equals("+") && nationSupplierLineItemJointValue.getFlag().equals("+")) ? "+" : "-";
+                Double volume = nationSupplierLineItemJointValue.getL_extendedPrice() * (1 - nationSupplierLineItemJointValue.getL_discount());
+                VolumeShippingResult volumeShippingResult = new VolumeShippingResult(
+                        flag,
+                        nationSupplierLineItemJointValue.getL_orderKey(),
+                        nationSupplierLineItemJointValue.getL_lineNumber(),
+                        nationSupplierLineItemJointValue.getN_name(),
+                        nationCustomerOrderJointValue.getN_name(),
+                        nationSupplierLineItemJointValue.getL_shipDate().getYear(),
+                        volume
+                );
+                collector.collect(volumeShippingResult);
+//                }
 
             }
         }
@@ -126,25 +126,25 @@ public class VolumeShippingImpl extends CoProcessFunction<NationCustomerOrderJoi
         // Parent relation join child relation
         if (nationSupplierLineItemJointIL.contains(parentKey)){
             NationCustomerOrderJointSchema nationCustomerOrderJointValue = nationCustomerOrderJointIL.get(orderKey);
-            if (getFilteredData(nationSupplierLineItemJointValue.getN_name(), nationCustomerOrderJointValue.getN_name())) {
-                String flag = (nationCustomerOrderJointValue.getFlag().equals("+") && nationSupplierLineItemJointValue.getFlag().equals("+")) ? "+" : "-";
-                Double volume = nationSupplierLineItemJointValue.getL_extendedPrice() * (1 - nationSupplierLineItemJointValue.getL_discount());
-                VolumeShippingResult volumeShippingResult = new VolumeShippingResult(
-                        flag,
-                        nationSupplierLineItemJointValue.getL_orderKey(),
-                        nationSupplierLineItemJointValue.getL_lineNumber(),
-                        nationSupplierLineItemJointValue.getN_name(),
-                        nationCustomerOrderJointValue.getN_name(),
-                        nationSupplierLineItemJointValue.getL_shipDate().getYear(),
-                        volume
-                );
-                collector.collect(volumeShippingResult);
-            }
+ //           if (getFilteredData(nationSupplierLineItemJointValue.getN_name(), nationCustomerOrderJointValue.getN_name())) {
+            String flag = (nationCustomerOrderJointValue.getFlag().equals("+") && nationSupplierLineItemJointValue.getFlag().equals("+")) ? "+" : "-";
+            Double volume = nationSupplierLineItemJointValue.getL_extendedPrice() * (1 - nationSupplierLineItemJointValue.getL_discount());
+            VolumeShippingResult volumeShippingResult = new VolumeShippingResult(
+                    flag,
+                    nationSupplierLineItemJointValue.getL_orderKey(),
+                    nationSupplierLineItemJointValue.getL_lineNumber(),
+                    nationSupplierLineItemJointValue.getN_name(),
+                    nationCustomerOrderJointValue.getN_name(),
+                    nationSupplierLineItemJointValue.getL_shipDate().getYear(),
+                    volume
+            );
+            collector.collect(volumeShippingResult);
+//            }
         }
     }
 
-    private boolean getFilteredData(String n1_name, String n2_name) {
-        return (n1_name.equals("ALGERIA") && n2_name.equals("BRAZIL")) ||
-                (n1_name.equals("BRAZIL") && n2_name.equals("ALGERIA"));
-    }
+//    private boolean getFilteredData(String n1_name, String n2_name) {
+//       return (n1_name.equals("ALGERIA") && n2_name.equals("BRAZIL")) ||
+//                (n1_name.equals("BRAZIL") && n2_name.equals("ALGERIA"));
+//    }
 }
