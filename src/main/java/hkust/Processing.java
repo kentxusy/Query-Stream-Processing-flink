@@ -110,8 +110,8 @@ public class Processing {
                         return Tuple3.of(results.getSupp_nation(), results.getCust_nation(), results.getL_year());
                     }})
                 .process(new AggregationImpl())
-//                .filter(value -> value.f0.equals("ALGERIA") && value.f1.equals("BRAZIL") ||
-//                        value.f0.equals("BRAZIL")&&value.f1.equals("ALGERIA"))
+                .filter(value -> value.f0.equals("ALGERIA") && value.f1.equals("BRAZIL") ||
+                       value.f0.equals("BRAZIL")&&value.f1.equals("ALGERIA"))
                 .print();
 
         env.execute();
