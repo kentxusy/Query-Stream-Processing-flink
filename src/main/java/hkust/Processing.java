@@ -26,6 +26,11 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+*
+* This is the main process for the implementation.
+*
+*/
 public class Processing {
     // Num of parallel workers
     private static final int PARALLEL_WORKER_NUM = 1;
