@@ -34,23 +34,34 @@ public class AggregationImpl extends ProcessFunction<VolumeShippingResult, Tuple
         String currentFlag = value.getFlag();
         Double volume = value.getVolume();
 
-        if (volumeShippingResult.contains(lineItemKey)){
-            String oldFlag = volumeShippingResult.get(lineItemKey).getFlag();
-            volumeShippingResult.remove(lineItemKey);
-            volumeShippingResult.put(lineItemKey, value);
-            if (INSERT.equals(oldFlag) && DELETE.equals(currentFlag)){
+    //     if (volumeShippingResult.contains(lineItemKey)){
+    //         String oldFlag = volumeShippingResult.get(lineItemKey).getFlag();
+    //         volumeShippingResult.remove(lineItemKey);
+    //         volumeShippingResult.put(lineItemKey, value);
+    //         if (INSERT.equals(oldFlag) && DELETE.equals(currentFlag)){
+    //             updateOutputAndCollect(outKey, -volume, collector);
+    //         } else if (DELETE.equals(oldFlag) && INSERT.equals(currentFlag)) {
+    //             updateOutputAndCollect(outKey, volume, collector);
+    //         }
+    //     } else {
+    //         if (INSERT.equals(currentFlag)){
+    //             volumeShippingResult.remove(lineItemKey);
+    //             volumeShippingResult.put(lineItemKey, value);
+    //             updateOutputAndCollect(outKey, volume, collector);
+    //         }
+    //     }
+    // }
+        if (DELETE.equals(currentFlag)){
+            if (volumeShippingResult.contains(lineItemKey)) {
                 updateOutputAndCollect(outKey, -volume, collector);
-            } else if (DELETE.equals(oldFlag) && INSERT.equals(currentFlag)) {
-                updateOutputAndCollect(outKey, volume, collector);
             }
-        } else {
-            if (INSERT.equals(currentFlag)){
-                volumeShippingResult.remove(lineItemKey);
-                volumeShippingResult.put(lineItemKey, value);
-                updateOutputAndCollect(outKey, volume, collector);
-            }
+            volumeShippingResult.remove(lineItemKey);
+        } else if ( INSERT.equals(currentFlag)) {
+            volumeShippingResult.put(lineItemKey, value);
+            updateOutputAndCollect(outKey, volume, collector);
         }
     }
+        
 
     private void updateOutputAndCollect(Tuple outKey, Double volume, Collector<Tuple4<String, String, Integer, Double>> collector) throws Exception {
         Double sumVolume = output.contains(outKey) ? output.get(outKey) : 0.0;
